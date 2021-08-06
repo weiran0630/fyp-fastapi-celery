@@ -44,7 +44,7 @@ Final Year Project's backend using Python FastAPI framework and Celery to serve 
     Here’s an example .env file:
     ```
     REDIS_TLS_URL=rediss://
-    REDIS_BROWN_URL=redis://
+    REDIS_URL=redis://
     ```
 2. Start up Redis server
 
