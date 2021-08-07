@@ -1,4 +1,4 @@
-# fyp-fastapi-celery
+# fyp-webapp-server
 
 Final Year Project's backend using Python FastAPI framework and Celery to serve Tensorflow Model
 
