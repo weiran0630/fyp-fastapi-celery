@@ -1,4 +1,5 @@
 from fastapi import FastAPI, File, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, FileResponse
 from starlette.background import BackgroundTask
 from .celery_queue.worker import create_task
@@ -8,6 +9,9 @@ import os
 
 # 初始化 FastAPI 實例
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware, allow_origins=["http://localhost", "http://localhost:3000"], allow_methods=["GET, POST"]
+)
 
 
 # http://example.com/
