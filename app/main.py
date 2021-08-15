@@ -10,7 +10,9 @@ import os
 # 初始化 FastAPI 實例
 app = FastAPI()
 app.add_middleware(
-    CORSMiddleware, allow_origins=["http://localhost", "http://localhost:3000"], allow_methods=["GET, POST"]
+    CORSMiddleware,
+    allow_origins=["http://localhost", "http://localhost:3000", "https://mcu-ai-admission-predict.vercel.app"],
+    allow_methods=["GET, POST"],
 )
 
 
