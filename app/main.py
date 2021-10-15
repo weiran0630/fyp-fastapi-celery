@@ -11,8 +11,7 @@ import os
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000",
-                   "https://mcu-ai-admission-predict.vercel.app"],
+    allow_origins=["https://mcu-ai-admission-predict.vercel.app"],
     allow_methods=["GET, POST"],
 )
 
