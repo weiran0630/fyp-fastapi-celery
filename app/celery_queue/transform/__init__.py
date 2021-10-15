@@ -11,8 +11,11 @@ def preprocessing(data):
 
     data = data.copy(deep=True)  # 複製 dataframe 防止修改原來資料
 
-    mask = ["序號", "性別", "畢業年度", "國數自", "居住地區", "英", "社", "通過篩選志願數", "科大志願數(國立)"]
+    mask = ["序號", "性別", "畢業年度", "國數自", "居住地區",
+            "英", "社", "通過篩選志願數", "科大志願數(國立)"]
     data.drop(mask, axis=1, inplace=True)
+
+    print(data.columns)
 
     mask = {
         "一": "學校1",
@@ -35,6 +38,8 @@ def preprocessing(data):
         "國立科大(三)": "學校9",
     }
     data.rename(columns=mask, inplace=True)
+
+    print(data)
 
     for i in range(0, len(data)):
         for j in range(0, len(grad)):
@@ -132,6 +137,8 @@ def preprocessing(data):
         columns=mask,
         inplace=True,
     )
+
+    print(data.keys())
 
     data = data.fillna(0)
 
