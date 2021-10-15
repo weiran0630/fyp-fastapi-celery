@@ -11,7 +11,8 @@ import os
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://mcu-ai-admission-predict.vercel.app"],
+    allow_origins=["https://mcu-ai-admission-predict.vercel.app",
+                   "http://localhost:3000"],
     allow_methods=["GET, POST"],
 )
 
@@ -38,7 +39,7 @@ async def predict(uploadfile: UploadFile = File(...)):
 
 @app.get("/file")
 async def get_sample_file():
-    file_path = "app/sample_file.xlsx"
+    file_path = "app/sample_file_v2.xlsx"
 
     return FileResponse(
         media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
