@@ -3,15 +3,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, FileResponse
 from starlette.background import BackgroundTask
 from .celery_queue.worker import create_task
-from time import time
 import pandas as pd
 import os
+
 
 # 初始化 FastAPI 實例
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://mcu-ai-admission-predict.vercel.app"],
+    allow_origins=[os.environ["FRONTEND_URL"]],
     allow_methods=["GET, POST"],
 )
 
@@ -38,12 +38,10 @@ async def predict(uploadfile: UploadFile = File(...)):
 
 @app.get("/file")
 async def get_sample_file():
-    file_path = "app/sample_file.xlsx"
-
     return FileResponse(
         media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        path=file_path,
-        filename=file_path
+        path="app/sample_data.xlsx",
+        filename="sample_data.xlsx"
     )
 
 
@@ -51,6 +49,7 @@ async def get_sample_file():
 async def get_predicted_file(task_id):
     if os.path.isfile(f"{task_id}.xlsx") == False:
         return JSONResponse(status_code=404, content={"message": "File not found!"})
+
     else:
         file_path = f"{task_id}.xlsx"
 
@@ -73,6 +72,7 @@ async def get_status(task_id):
         return JSONResponse(status_code=202, content={"task_id": task_id, "status": task.status})
 
     result = task.get()  # 工作完成，獲取工作實例的結果 （result）
+
     try:
         file_path = f"{task_id}.xlsx"
 
