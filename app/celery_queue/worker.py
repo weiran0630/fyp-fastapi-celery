@@ -15,7 +15,9 @@ celery = Celery(
 @celery.task(name="create_task", track_started=True)
 def create_task(data_serialized):
     # 載入 Tensorflow 模型
+    # model = load_model("app/celery_queue/model_20210326.h5")
     model = load_model("app/celery_queue/model_20210326.h5")
+
     try:
         # 還原序列化 (json -> pandas Dataframe)
         data = pd.read_json(data_serialized)
@@ -26,9 +28,8 @@ def create_task(data_serialized):
         # model.predict() 預測
         # flatten() 將預測結果降維
         # pd.Series() 轉換爲 pandas Series
-        probability = pd.Series(model.predict(
-            transformed_data, verbose=1).flatten())
-        result = probability.map(lambda x: 1 if x > 0.3 else 0)
+        probability = pd.Series(model.predict(transformed_data, verbose=1).flatten())
+        result = probability.map(lambda x: 1 if x > 0.5 else 0)
 
         # 連接 (concat) 原來的資料和預測結果
         product = pd.concat([data, probability], axis=1)
